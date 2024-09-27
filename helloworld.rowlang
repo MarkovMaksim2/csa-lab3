@@ -1,0 +1,19 @@
+section .data
+    hello 'Hello, World!'
+    num 127
+
+section .text
+_start:
+    set rg1, hello
+    set rg3, 0
+  loop:
+    set rg2, (rg1)
+    print rg2, 1
+    cmp rg2, rg3
+    jeq end
+    set rg2, 5
+    sum rg1, rg2
+    jmp loop
+
+  end:
+    break
