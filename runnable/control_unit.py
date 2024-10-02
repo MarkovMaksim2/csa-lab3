@@ -15,7 +15,7 @@ class ControlUnit:
             filename="main.log",
             encoding="utf-8",
             level=logging.DEBUG,
-            format='%(message)s'
+            format="%(message)s"
         )
         self.stopped = False
         self.instruction_stage = "FETCH"
@@ -33,9 +33,7 @@ class ControlUnit:
             self.stopped = True
 
     def decode_instruction(self):
-        self.control_signals = self.decoder.decode_instruction(
-            self.current_instruction
-        )
+        self.control_signals = self.decoder.decode_instruction(self.current_instruction)
 
     def execute_instruction(self):
         if self.control_signals:

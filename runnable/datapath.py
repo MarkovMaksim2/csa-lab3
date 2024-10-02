@@ -98,9 +98,7 @@ class DataPath:
         if data is not None:
             self.address_register[reg_dest] = data
         else:
-            raise Exception(
-                "[Error] Буфер ввода пуст. Остановка выполнения."
-            )
+            raise Exception("[Error] Буфер ввода пуст. Остановка выполнения.")
 
     def write_mem(self, reg_src, port, output_type):
         self.memory.memory[1021 if port == 1 else 1022] = self.address_register[reg_src]
