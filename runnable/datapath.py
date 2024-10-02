@@ -99,7 +99,7 @@ class DataPath:
             self.address_register[reg_dest] = data
         else:
             raise Exception(
-                f"[Error] Буфер ввода пуст. Остановка выполнения."
+                "[Error] Буфер ввода пуст. Остановка выполнения."
             )
 
     def write_mem(self, reg_src, port, output_type):

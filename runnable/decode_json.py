@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+
 @dataclass
 class ControlSignals:
     load_enable: bool = False
@@ -120,8 +121,12 @@ class Decoder:
             self.control_signals.alu_enable = True
             self.control_signals.alu_op = "cmp"
 
-        elif (decoded_instr["op"] == "jmp" or decoded_instr["op"] == "jeq" or decoded_instr["op"] == "jne" or
-              decoded_instr["op"] == "jl"):
+        elif (
+            decoded_instr["op"] == "jmp"
+            or decoded_instr["op"] == "jeq"
+            or decoded_instr["op"] == "jne"
+            or decoded_instr["op"] == "jl"
+        ):
             self.control_signals.address = self.operands["address"]
             self.control_signals.branch = decoded_instr["op"]
             self.control_signals.jump = True

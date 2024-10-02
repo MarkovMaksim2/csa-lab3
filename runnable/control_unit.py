@@ -11,7 +11,12 @@ class ControlUnit:
         self.pc = 0
         self.datapath = datapath
         self.logger = logging.getLogger(__name__)
-        logging.basicConfig(filename="main.log", encoding="utf-8", level=logging.DEBUG, format='%(message)s')
+        logging.basicConfig(
+            filename="main.log",
+            encoding="utf-8",
+            level=logging.DEBUG,
+            format='%(message)s'
+        )
         self.stopped = False
         self.instruction_stage = "FETCH"
         self.current_instruction = None
@@ -29,7 +34,8 @@ class ControlUnit:
 
     def decode_instruction(self):
         self.control_signals = self.decoder.decode_instruction(
-            self.current_instruction)  #generate_control_signals(op_code, reg_f, reg_s, immediate)
+            self.current_instruction
+        )
 
     def execute_instruction(self):
         if self.control_signals:
@@ -94,8 +100,8 @@ class ControlUnit:
     def memory_access(self):
         if self.control_signals:
             if (
-                    self.control_signals["load_from_enable"]
-                    or self.control_signals["store_enable"]
+                self.control_signals["load_from_enable"]
+                or self.control_signals["store_enable"]
             ):
                 self.datapath.load_memory(self.control_signals)
         else:
@@ -111,7 +117,7 @@ class ControlUnit:
             pass
 
     def log(self, instruction, instruction_cnt):
-        op = instruction.get('opcode')
+        op = instruction.get("opcode")
         self.logger.debug(
             f"INSTR={instruction_cnt} | OP={op} | PC={self.pc} | rg1={self.datapath.address_register['rg1']} | rg2={self.datapath.address_register['rg2']} | rg3={self.datapath.address_register['rg3']} | rg4={self.datapath.address_register['rg4']} |  data={self.datapath.memory.memory}"
         )

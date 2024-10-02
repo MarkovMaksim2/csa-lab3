@@ -10,7 +10,7 @@ def replace_escape_sequences(input_data: list[str]) -> list[str]:
     while i > 0:
         if input_data[i] == "n" and input_data[i - 1] == "\\":
             input_data.pop(i - 1)
-            input_data[i - 1] = '\n'
+            input_data[i - 1] = "\n"
             i -= 1
         i -= 1
 
