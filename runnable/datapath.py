@@ -1,5 +1,3 @@
-from numpy import int16
-
 from runnable.alu import ALU
 from runnable.input import InputDevice
 from runnable.output import OutputDevice
@@ -7,14 +5,14 @@ from runnable.output import OutputDevice
 
 class Memory:
     def __init__(self, data: list[int16]):
-        self.value = int16(0)
+        self.value = 0
         self.memory = 1024 * [0]
         for i in range(0, len(data)):
             self.memory[i] = data[i]
 
 
 class DataPath:
-    def __init__(self, data: list[int16], inputdp):
+    def __init__(self, data: list[int], inputdp):
         self.memory = Memory(data)
         self.alu = ALU()
         self.address_register = {"rg1": 0, "rg2": 0, "rg3": 0, "rg4": 0}
@@ -30,7 +28,7 @@ class DataPath:
         if isinstance(val, int):
             return val
         else:
-            return int16(val)
+            return int(val)
 
     def use_alu(self, control_signal):
         op = control_signal.get("alu_op", None)

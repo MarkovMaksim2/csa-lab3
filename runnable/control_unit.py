@@ -4,6 +4,7 @@ from runnable.clock import Clock
 
 clock = Clock()
 
+
 class ControlUnit:
     def __init__(self, datapath, instructions_mem):
         self.instructions_mem = instructions_mem
@@ -27,7 +28,8 @@ class ControlUnit:
             self.stopped = True
 
     def decode_instruction(self):
-        self.control_signals = self.decoder.decode_instruction(self.current_instruction) #generate_control_signals(op_code, reg_f, reg_s, immediate)
+        self.control_signals = self.decoder.decode_instruction(
+            self.current_instruction)  #generate_control_signals(op_code, reg_f, reg_s, immediate)
 
     def execute_instruction(self):
         if self.control_signals:
@@ -65,7 +67,7 @@ class ControlUnit:
                 self.instruction_stage = "FETCH"
             else:
                 self.pc = self.pc + 1
-                
+
     def exec(self):
         while not self.stopped:
             if not self.stopped:
@@ -88,10 +90,6 @@ class ControlUnit:
                 elif self.instruction_stage == "WRITEBACK":
                     self.write_back()
                     self.instruction_stage = "FETCH"
-        print(self.tick)
-        print("\n")
-        print(self.instr_cnt)
-
 
     def memory_access(self):
         if self.control_signals:

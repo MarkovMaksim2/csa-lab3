@@ -1,8 +1,6 @@
-import glob
 import logging
 import os
 import tempfile
-import yaml
 import json
 
 import pytest
@@ -11,18 +9,6 @@ from runnable.head import replace_escape_sequences
 from translator import Translator
 from runnable.control_unit import ControlUnit
 from runnable.datapath import DataPath
-
-
-@pytest.fixture(params=glob.glob("golden/*_rowlang.yml"))
-def golden(request):
-    with open(request.param, 'r', encoding='utf-8') as file:
-        data = yaml.safe_load(file)
-    return data
-
-
-@pytest.fixture
-def setup_logging(caplog):
-    logging.basicConfig(encoding="utf-8", level=logging.DEBUG, format='%(message)s')
 
 
 @pytest.mark.golden_test("golden/*_rowlang.yml")

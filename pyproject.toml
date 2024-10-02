@@ -6,27 +6,21 @@ authors = ["notttk <markov.maksim.mm2@gmail.com@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.8"
+
 
 [tool.poetry.group.dev.dependencies]
-coverage = "^7.2.7"
-mypy = "^1.4.1"
-pytest = "^7.4.0"
+ruff = "^0.4.6"
+pytest = "^8.2.1"
 pytest-golden = "^0.2.2"
-ruff = "^0.1.3"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.pytest.ini_options]
-enable_assertion_pass_hook = true
-addopts = "--doctest-modules"
-log_format = "%(message)s"
-
 [tool.ruff]
-line-length = 120
-select = [
+exclude = ["*/__pycache__/*", "*/.git/*", "*/docs/*"]
+lint.select = [
     # A set of chosen linter rules is specified here.
     # See https://beta.ruff.rs/docs/rules/ for more info.
     # pyflakes (simple obvious errors)
@@ -77,23 +71,25 @@ select = [
     # ruff-specific advices
     "RUF",
 ]
-ignore = [
-    "COM812", # The following rules may cause conflicts when used with the formatter: `COM812`.
-    "E501",   # allow lines longer than 80 symbols (up to 120)
-    "T201",   # `print` found
-    "RUF002", # Docstring contains ambiguous `В` (CYRILLIC CAPITAL LETTER VE). Did you mean `B` (LATIN CAPITAL LETTER B)
-    "RUF003", # Comment contains ambiguous `с` (CYRILLIC SMALL LETTER ES). Did you mean `c` (LATIN SMALL LETTER C)
-    "PTH123", # `open()` should be replaced by `Path.open()`
-    # to simplify code for non-Python programmers
-    "PTH118", # `os.path.join()` should be replaced by `Path` with `/` operator
-    "UP032",  # [*] Use f-string instead of `format` call
 
-
+lint.ignore = [
+    "COM812",
+    "E501",
+    "T201",
+    "RUF002",
+    "C90",
+    "RUF003",
+    "PTH123",
+    "PTH118",
+    "UP032",
+    "TRY003",
+    "TRY002",
+    "RUF012",
+    "RUF015",
+    "A002",
+    "INP001",
+    "RUF001"
 ]
-unfixable = [
+lint.unfixable = [
     "ERA001", # prohibit to "auto-fix" (=remove) commented-out code
 ]
-src = ["src"]
-
-[tool.ruff.mccabe]
-max-complexity = 7

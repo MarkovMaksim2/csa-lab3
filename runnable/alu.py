@@ -1,11 +1,8 @@
-from numpy import int16
-
-
 class ALU:
     def __init__(self) -> None:
-        self.first_operand = int16(0)
-        self.second_operand = int16(0)
-        self.result = int16(0)
+        self.first_operand = 0
+        self.second_operand = 0
+        self.result = 0
         self.z_flag = False
         self.n_flag = False
 
@@ -19,7 +16,7 @@ class ALU:
         elif op == "mod":
             self.result = self.second_operand % self.first_operand
         else:
-            self.result = int16(0)
+            self.result = 0
         self.z_flag = self.result == 0
         self.n_flag = self.result < 0
 
