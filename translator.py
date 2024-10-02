@@ -119,7 +119,7 @@ def parse_code(code: str):
                 str_building_json = '{"opcode": "' + words[0] + '", "args": []}'
                 command_str += str_building_json
             elif words[0] in OPCODE_DICT["o_op"]:
-                str_building_json = '{"opcode\": "' + words[0] + '", "args": ['
+                str_building_json = '{"opcode": "' + words[0] + '", "args": ['
                 if words[1] in REG:
                     str_building_json += '{"reg": "' + words[1] + '"}]}'
                 elif words[1] in labels.keys():
@@ -143,7 +143,7 @@ def parse_code(code: str):
                 elif words[1].startswith("(r"):
                     str_building_json += '{"indir_reg": "' + words[1][1:-1] + '"}, '
                 else:
-                    str_building_json += "{\"number\": \"" + words[1] + "\"}, "
+                    str_building_json += '{"number": "' + words[1] + '"}, '
                 if words[2] in REG:
                     str_building_json += '{"reg": "' + words[2] + '"}]}'
                 elif words[2] in labels.keys():

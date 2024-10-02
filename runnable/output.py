@@ -15,7 +15,7 @@ class OutputDevice:
             if output_type == "number"
             else chr(self.memory[bind] & 0xFF)
         )
-        if not (data == 0 or data == '\x00'):
+        if not (data == 0 or data == "\x00"):
             self.buffer[port].append(data)
             self.file[port - 1].write(data)
 
