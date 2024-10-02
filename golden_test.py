@@ -16,6 +16,7 @@ def test_golden(golden, caplog):
     caplog.set_level(logging.DEBUG)
 
     with tempfile.TemporaryDirectory() as tmpdirname:
+        tmpdirname = ""
         source = os.path.join(tmpdirname, "source.rowlang")
         input_data = golden["input"]
         with open(source, "w", encoding="utf-8") as file:
