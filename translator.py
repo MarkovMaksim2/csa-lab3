@@ -1,7 +1,6 @@
 import argparse
 import re
 import sys
-from pathlib import Path
 from typing import Tuple
 
 OPCODES = [
@@ -126,47 +125,46 @@ def parse_code(code: str):
                 command_str += ", "
             else:
                 flag = True
-            #print(line + "\n")
-            if (words[0] in OPCODE_DICT["z_op"]):
-                str = "{\"opcode\": \"" + words[0] + "\", \"args\": []}"
-                command_str += str
-            elif (words[0] in OPCODE_DICT["o_op"]):
-                str = "{\"opcode\": \"" + words[0] + "\", \"args\": ["
+            if words[0] in OPCODE_DICT["z_op"]:
+                str_building_json = "{\"opcode\": \"" + words[0] + "\", \"args\": []}"
+                command_str += str_building_json
+            elif words[0] in OPCODE_DICT["o_op"]:
+                str_building_json = "{\"opcode\": \"" + words[0] + "\", \"args\": ["
                 if words[1] in REG:
-                    str += "{\"reg\": \"" + words[1] + "\"}]}"
+                    str_building_json += "{\"reg\": \"" + words[1] + "\"}]}"
                 elif words[1] in labels.keys():
-                    str += "{\"number\": \"" + f"{labels[words[1]]}" + "\"}]}"
+                    str_building_json += "{\"number\": \"" + f"{labels[words[1]]}" + "\"}]}"
                 elif words[1] in data.keys():
-                    str += "{\"number\": \"" + f"{data[words[1]]}" + "\"}]}"
+                    str_building_json += "{\"number\": \"" + f"{data[words[1]]}" + "\"}]}"
                 elif words[1].startswith("(R"):
-                    str += "{\"indir_reg\": \"" + words[1][1:-1] + "\"}]}"
+                    str_building_json += "{\"indir_reg\": \"" + words[1][1:-1] + "\"}]}"
                 else:
-                    str += "{\"number\": \"" + words[1] + "\"}]}"
-                command_str += str
+                    str_building_json += "{\"number\": \"" + words[1] + "\"}]}"
+                command_str += str_building_json
             else:
                 words[1] = words[1][:-1]
-                str = "{\"opcode\": \"" + words[0] + "\", \"args\": ["
+                str_building_json = "{\"opcode\": \"" + words[0] + "\", \"args\": ["
                 if words[1] in REG:
-                    str += "{\"reg\": \"" + words[1] + "\"}, "
+                    str_building_json += "{\"reg\": \"" + words[1] + "\"}, "
                 elif words[1] in labels.keys():
-                    str += "{\"number\": \"" + f"{labels[words[1]]}" + "\"}, "
+                    str_building_json += "{\"number\": \"" + f"{labels[words[1]]}" + "\"}, "
                 elif words[1] in data.keys():
-                    str += "{\"number\": \"" + f"{data[words[1]]}" + "\"}, "
+                    str_building_json += "{\"number\": \"" + f"{data[words[1]]}" + "\"}, "
                 elif words[1].startswith("(r"):
-                    str += "{\"indir_reg\": \"" + words[1][1:-1] + "\"}, "
+                    str_building_json += "{\"indir_reg\": \"" + words[1][1:-1] + "\"}, "
                 else:
-                    str += "{\"number\": \"" + words[1] + "\"}, "
+                    str_building_json += "{\"number\": \"" + words[1] + "\"}, "
                 if words[2] in REG:
-                    str += "{\"reg\": \"" + words[2] + "\"}]}"
+                    str_building_json += "{\"reg\": \"" + words[2] + "\"}]}"
                 elif words[2] in labels.keys():
-                    str += "{\"number\": \"" + f"{labels[words[2]]}" + "\"}]}"
+                    str_building_json += "{\"number\": \"" + f"{labels[words[2]]}" + "\"}]}"
                 elif words[2] in data.keys():
-                    str += "{\"number\": \"" + f"{data[words[2]]}" + "\"}]}"
+                    str_building_json += "{\"number\": \"" + f"{data[words[2]]}" + "\"}]}"
                 elif words[2].startswith("(r"):
-                    str += "{\"indir_reg\": \"" + words[2][1:-1] + "\"}]}"
+                    str_building_json += "{\"indir_reg\": \"" + words[2][1:-1] + "\"}]}"
                 else:
-                    str += "{\"number\": \"" + words[2] + "\"}]}"
-                command_str += str
+                    str_building_json += "{\"number\": \"" + words[2] + "\"}]}"
+                command_str += str_building_json
     command_str += "]"
     json_str = "{" + data_str + ", " + command_str + "}"
 

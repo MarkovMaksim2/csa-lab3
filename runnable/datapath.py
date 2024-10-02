@@ -14,14 +14,14 @@ class Memory:
 
 
 class DataPath:
-    def __init__(self, data: list[int16], input):
+    def __init__(self, data: list[int16], inputdp):
         self.memory = Memory(data)
         self.alu = ALU()
         self.address_register = {"rg1": 0, "rg2": 0, "rg3": 0, "rg4": 0}
         self.data_register = None
         self.operand_register = None
         self.value_buffer = None
-        self.input_device = InputDevice(input, self.memory.memory, 1019, 1020)
+        self.input_device = InputDevice(inputdp, self.memory.memory, 1019, 1020)
         self.output_device = OutputDevice(self.memory.memory, 1021, 1022)
 
     def get_value(self, val):

@@ -69,7 +69,7 @@ class ControlUnit:
     def exec(self):
         while not self.stopped:
             if not self.stopped:
-                tick = clock.tick()
+                self.tick = clock.tick()
                 if self.instruction_stage == "FETCH":
                     self.fetch_instruction()
                     self.instr_cnt += 1
@@ -88,7 +88,7 @@ class ControlUnit:
                 elif self.instruction_stage == "WRITEBACK":
                     self.write_back()
                     self.instruction_stage = "FETCH"
-        print(tick)
+        print(self.tick)
         print("\n")
         print(self.instr_cnt)
 

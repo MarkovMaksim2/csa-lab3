@@ -1,5 +1,4 @@
 import json
-import logging
 import sys
 
 from runnable.control_unit import ControlUnit
@@ -17,6 +16,7 @@ def replace_escape_sequences(input_data: list[str]) -> list[str]:
 
     return input_data
 
+
 def main(asm_file, input_file):
     with open(asm_file) as file:
         json_file = json.load(file)
@@ -28,6 +28,7 @@ def main(asm_file, input_file):
     control_unit = ControlUnit(data_path, json_file.get("text", []))
 
     control_unit.exec()
+
 
 if __name__ == "__main__":
     input_file = sys.argv[1]

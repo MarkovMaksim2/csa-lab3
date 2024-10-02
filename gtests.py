@@ -11,7 +11,7 @@ from runnable.head import replace_escape_sequences
 from translator import Translator
 from runnable.control_unit import ControlUnit
 from runnable.datapath import DataPath
-from runnable.output import OutputDevice
+
 
 @pytest.fixture(params=glob.glob("golden/*_rowlang.yml"))
 def golden(request):
@@ -42,8 +42,8 @@ def test_golden(golden, caplog):
     json_str = translator.get_json()
 
     assert json_str.replace(" ", "").replace("\n", "") == (
-            golden["translated"].replace(" ", "").replace("\n", "")
-        )
+        golden["translated"].replace(" ", "").replace("\n", "")
+    )
 
     json_file = json.loads(json_str)
     input_data = replace_escape_sequences(list(input_data.strip() + chr(0)))
@@ -54,11 +54,11 @@ def test_golden(golden, caplog):
 
     output = ''.join(control_unit.datapath.test_get_buffer(2))
     assert output.replace(" ", "").replace("\n", "").replace("\x00", "") == (
-            golden["output"]
-            .replace(" ", "")
-            .replace("\n", "")
-            .replace("\x00", "")
-        )
+        golden["output"]
+        .replace(" ", "")
+        .replace("\n", "")
+        .replace("\x00", "")
+    )
 
     caplogtext = "".join(caplog.messages)
     if len(caplogtext) >= 124000:
@@ -70,5 +70,3 @@ def test_golden(golden, caplog):
         assert caplog.text.replace(" ", "").replace("\n", "") == golden[
             "log"
         ].replace(" ", "").replace("\n", "")
-
-
