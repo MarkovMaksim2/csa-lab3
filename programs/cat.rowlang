@@ -1,0 +1,28 @@
+section .data
+    msg 'Hi '
+
+section .text
+_start:
+        set rg3, 0
+read:
+        getc rg2, 0
+        save rg2, (rg1)
+        cmp rg2, rg3
+        jeq out_2
+        set rg2, 1
+        sum rg1, rg2
+        jmp read
+out_2:
+        set rg1, 0
+        jmp output_loop_2
+output_loop_2:
+        set rg2, (rg1)
+        printc rg2, 2
+        set rg3, 0
+        cmp rg2, rg3
+        jeq end
+        set rg2, 1
+        sum rg1, rg2
+        jmp output_loop_2
+end:
+    break

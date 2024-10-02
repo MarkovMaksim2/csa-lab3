@@ -1,0 +1,54 @@
+section .data
+    res 0
+    a 1
+    b 2
+    lim 4000000
+    space " "
+section .text
+_start:
+    set rg1, a
+    set rg1, (rg1)
+    set rg2, b
+    set rg2, (rg2)
+    loop:
+        set rg3, rg1
+        set rg4, 2
+        mod rg3, rg4
+        set rg4, 0
+        cmp rg3, rg4
+        jne check_second
+        set rg4, res
+        set rg4, (rg4)
+        sum rg4, rg1
+        set rg3, res
+        save rg4, (rg3)
+    check_second:
+        set rg3, rg2
+        set rg4, 2
+        mod rg3, rg4
+        set rg4, 0
+        cmp rg3, rg4
+        jne recalculate_first_and_second
+        set rg4, res
+        set rg4, (rg4)
+        sum rg4, rg2
+        set rg3, res
+        save rg4, (rg3)
+    recalculate_first_and_second:
+        sum rg1, rg2
+        sum rg2, rg1
+        set rg3, 0
+        set rg4, lim
+        set rg4, (rg4)
+        sub rg4, rg1
+        jl end
+        set rg4, lim
+        set rg4, (rg4)
+        sub rg4, rg2
+        jl end
+        jmp loop
+    end:
+        set rg4, res
+        set rg4, (rg4)
+        print rg4, 2
+        break

@@ -4,26 +4,27 @@ import sys
 from pathlib import Path
 from typing import Tuple
 
-OPCODE = {
-    "set": "0000",
-    "set_addr": "0001",
-    "save": "0010",
-    "save_addr": "0011",
-    "sum": "0100",
-    "sub": "0101",
-    "mul": "0110",
-    "cmp": "0111",
-    "jmp": "1000",
-    "jeq": "1001",
-    "jne": "1010",
-    "print": "1100",
-    "printc": "1101",
-    "get": "1110",
-    "getc": "1111",
-    "break": "1111"
-}
+OPCODES = [
+    "set",
+    "set_addr",
+    "save",
+    "save_addr",
+    "sum",
+    "sub",
+    "mod",
+    "cmp",
+    "jmp",
+    "jeq",
+    "jne",
+    "print",
+    "printc",
+    "get",
+    "getc",
+    "break",
+    "jl"
+]
 
-REG = {"rg1": "0000000001", "rg2": "0000000010", "rg3": "0000000011", "rg4": "0000000100"}
+REG = ["rg1", "rg2", "rg3", "rg4"]
 
 OPCODE_DICT = {
     "z_op": {
@@ -32,7 +33,8 @@ OPCODE_DICT = {
     "o_op": {
         "jeq",
         "jne",
-        "jmp"
+        "jmp",
+        "jl"
     }
 }
 
@@ -43,8 +45,9 @@ DATA_START = 0
 def refactor_lines(code: str):
     lines = []
     for line in code.splitlines():
-        line = line.strip()
-        lines.append(line)
+        line = line.strip().split(';')[0]
+        if line != "":
+            lines.append(line)
 
     fcode = "\n".join(lines)
     fcode = re.sub(r" +", " ", fcode)
@@ -62,7 +65,10 @@ def parse_word(word: str) -> Tuple[list, int]:
     offset += 1
     return list_chars, offset
 
+
 data_list = []
+
+
 def set_labels(code: str) -> Tuple[dict, dict]:
     labels = {}
     data = {}
@@ -76,7 +82,8 @@ def set_labels(code: str) -> Tuple[dict, dict]:
         if start_flag:
             if re.match(r"^(\w+):", line):
                 labels[line.partition(":")[0].strip()] = i
-            i = i + 1
+            else:
+                i = i + 1
         if line == "section .text":
             start_flag = True
             data_flag = False
@@ -86,6 +93,7 @@ def set_labels(code: str) -> Tuple[dict, dict]:
                 data[words[0]] = j
                 if words[1].isdigit():
                     data_list.append(int(words[1]))
+                    j += 1
                 else:
                     word = line[(len(words[0]) + 2):-1]
                     char_list, offset = parse_word(word)
@@ -104,11 +112,16 @@ def parse_code(code: str):
     data_str = "\"data\": " + data_list.__str__()
     flag = False
     command_str = "\"text\": ["
+    flag_text = True
     for line in code.splitlines():
+        if line == "section .text":
+            flag_text = False
+        if flag_text:
+            continue
         if re.match(r"^(\w+):", line):
             continue
         words = line.split(" ")
-        if (words[0] in OPCODE):
+        if words[0] in OPCODES:
             if flag:
                 command_str += ", "
             else:
@@ -139,8 +152,8 @@ def parse_code(code: str):
                     str += "{\"number\": \"" + f"{labels[words[1]]}" + "\"}, "
                 elif words[1] in data.keys():
                     str += "{\"number\": \"" + f"{data[words[1]]}" + "\"}, "
-                elif words[1].startswith("(R"):
-                    str += "{\"indir_reg\": \"" + words[1][1:-1] + "\"}]}"
+                elif words[1].startswith("(r"):
+                    str += "{\"indir_reg\": \"" + words[1][1:-1] + "\"}, "
                 else:
                     str += "{\"number\": \"" + words[1] + "\"}, "
                 if words[2] in REG:
@@ -160,14 +173,29 @@ def parse_code(code: str):
     return json_str
 
 
-def main(input_file, target_file):
-    with open(input_file, encoding="utf-8") as infile:
-        asm_code = infile.read()
+class Translator:
+    def __init__(self):
+        self.json_string = None
 
-    json_string = parse_code(asm_code)
+    def read_file(self, inputf):
+        data_list.clear()
+        with open(inputf, encoding="utf-8") as infile:
+            asm_code = infile.read()
+        self.json_string = parse_code(asm_code)
 
-    with open(target_file, "w") as outfile:
-        outfile.write(json_string)
+    def get_json(self):
+        return self.json_string
+
+    def write_file(self, target):
+        if self.json_string is not None:
+            with open(target, "w") as outfile:
+                outfile.write(self.json_string)
+
+
+def main(in_file, t_file):
+    translator = Translator()
+    translator.read_file(in_file)
+    translator.write_file(t_file)
 
 
 if __name__ == "__main__":

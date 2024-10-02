@@ -2,16 +2,6 @@ from numpy import int16
 
 
 class ALU:
-    first_operand: int16 = None
-
-    second_operand: int16 = None
-
-    result: int16 = None
-
-    z_flag: bool = None
-
-    n_flag: bool = None
-
     def __init__(self) -> None:
         self.first_operand = int16(0)
         self.second_operand = int16(0)
@@ -20,28 +10,24 @@ class ALU:
         self.n_flag = False
 
     def compute(self, op):
-        if op == "sum":
+        if op == "add":
             self.result = self.first_operand + self.second_operand
         elif op == "sub":
             self.result = self.second_operand - self.first_operand
         elif op == "cmp":
-            self.result = 0
-            self.z_flag = self.second_operand == self.first_operand
-        elif op == "mul":
-            self.result = self.first_operand * self.second_operand
+            self.result = self.second_operand - self.first_operand
+        elif op == "mod":
+            self.result = self.second_operand % self.first_operand
         else:
             self.result = int16(0)
-
-        if self.result < 0:
-            self.n_flag = True
-        else:
-            self.n_flag = False
+        self.z_flag = self.result == 0
+        self.n_flag = self.result < 0
 
     def set_first_operand(self, val):
-        self.first_operand = int16(val)
+        self.first_operand = val
 
     def set_second_operand(self, val):
-        self.second_operand = int16(val)
+        self.second_operand = val
 
     def get_result(self):
         return self.result
