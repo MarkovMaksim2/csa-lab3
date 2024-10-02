@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 from runnable.alu import ALU
 from runnable.input import InputDevice
 from runnable.output import OutputDevice
 
 
 class Memory:
-    def __init__(self, data: list[int16]):
+    def __init__(self, data: list[int]):
         self.value = 0
         self.memory = 1024 * [0]
         for i in range(0, len(data)):

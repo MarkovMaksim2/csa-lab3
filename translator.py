@@ -1,4 +1,5 @@
-import argparse
+from __future__ import annotations
+
 import re
 import sys
 from typing import Tuple
@@ -37,11 +38,7 @@ def refactor_lines(code: str):
         line = line.strip().split(";")[0]
         if line != "":
             lines.append(line)
-
-    fcode = "\n".join(lines)
-    fcode = re.sub(r" +", " ", fcode)
-
-    return fcode
+    return re.sub(r" +", " ", "\n".join(lines))
 
 
 def parse_word(word: str) -> Tuple[list, int]:
@@ -156,9 +153,8 @@ def parse_code(code: str):
                     str_building_json += '{"number": "' + words[2] + '"}]}'
                 command_str += str_building_json
     command_str += "]"
-    json_str = "{" + data_str + ", " + command_str + "}"
 
-    return json_str
+    return "{" + data_str + ", " + command_str + "}"
 
 
 class Translator:
