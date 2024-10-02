@@ -35,15 +35,11 @@ def test_golden(golden, caplog):
     input_data = replace_escape_sequences(list(input_data.strip() + chr(0)))
     data_path = DataPath(json_file.get("data", []), input_data)
     control_unit = ControlUnit(data_path, json_file.get("text", []))
-
     control_unit.exec()
 
-    output = ''.join(control_unit.datapath.test_get_buffer(2))
+    output = "".join(control_unit.datapath.test_get_buffer(2))
     assert output.replace(" ", "").replace("\n", "").replace("\x00", "") == (
-        golden["output"]
-        .replace(" ", "")
-        .replace("\n", "")
-        .replace("\x00", "")
+        golden["output"].replace(" ", "").replace("\n", "").replace("\x00", "")
     )
 
     caplogtext = "".join(caplog.messages)
@@ -53,6 +49,6 @@ def test_golden(golden, caplog):
             golden["log"].splitlines()[:1000]
         ).replace(" ", "").replace("\n", "")
     else:
-        assert caplog.text.replace(" ", "").replace("\n", "") == golden[
-            "log"
-        ].replace(" ", "").replace("\n", "")
+        assert caplog.text.replace(" ", "").replace("\n", "") == golden["log"].replace(
+            " ", ""
+        ).replace("\n", "")
