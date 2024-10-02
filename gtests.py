@@ -10,6 +10,7 @@ from runnable.datapath import DataPath
 from runnable.head import replace_escape_sequences
 from translator import Translator
 
+
 @pytest.mark.golden_test("golden/*_rowlang.yml")
 def test_golden(golden, caplog):
     caplog.set_level(logging.DEBUG)
