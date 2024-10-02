@@ -15,7 +15,7 @@ class ControlUnit:
             filename="main.log",
             encoding="utf-8",
             level=logging.DEBUG,
-            format="%(message)s"
+            format="%(message)s",
         )
         self.stopped = False
         self.instruction_stage = "FETCH"
