@@ -1,7 +1,7 @@
 import logging
 
-from runnable.decode_json import Decoder
 from runnable.clock import Clock
+from runnable.decode_json import Decoder
 
 clock = Clock()
 

@@ -1,15 +1,14 @@
+import json
 import logging
 import os
 import tempfile
-import json
 
 import pytest
 
-from runnable.head import replace_escape_sequences
-from translator import Translator
 from runnable.control_unit import ControlUnit
 from runnable.datapath import DataPath
-
+from runnable.head import replace_escape_sequences
+from translator import Translator
 
 @pytest.mark.golden_test("golden/*_rowlang.yml")
 def test_golden(golden, caplog):

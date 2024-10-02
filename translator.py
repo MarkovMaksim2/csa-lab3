@@ -41,7 +41,7 @@ def refactor_lines(code: str):
     return re.sub(r" +", " ", "\n".join(lines))
 
 
-def parse_word(word: str) -> Tuple[list, int]:
+def parse_word(word: str) -> tuple[list, int]:
     list_chars = []
     offset = 0
     for char in word:
@@ -55,7 +55,7 @@ def parse_word(word: str) -> Tuple[list, int]:
 data_list = []
 
 
-def set_labels(code: str) -> Tuple[dict, dict]:
+def set_labels(code: str) -> tuple[dict, dict]:
     labels = {}
     data = {}
 

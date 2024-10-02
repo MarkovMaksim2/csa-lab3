@@ -29,8 +29,7 @@ class DataPath:
             return self.address_register[val]
         if isinstance(val, int):
             return val
-        else:
-            return int(val)
+        return int(val)
 
     def use_alu(self, control_signal):
         op = control_signal.get("alu_op", None)

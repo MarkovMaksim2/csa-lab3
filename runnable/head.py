@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import sys
 
-
 from runnable.control_unit import ControlUnit
 from runnable.datapath import DataPath
 
