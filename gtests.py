@@ -18,8 +18,8 @@ def test_golden(golden, caplog):
     with tempfile.TemporaryDirectory() as tmpdirname:
         source = os.path.join(tmpdirname, "source.rowlang")
         input_data = golden["input"]
-    with open(source, "w", encoding="utf-8") as file:
-        file.write(golden["source_code"])
+        with open(source, "w", encoding="utf-8") as file:
+            file.write(golden["source_code"])
 
     translator = Translator()
 
